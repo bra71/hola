@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../static/bootstrap.min.css">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/estilos.css">
+    <title>REGISTRAR CLIENTE</title>
+</head>
+<body>
+    <p><a href="/login">CERRAR SESIÓN</a></p>
+    <div class="contenido Buscar">
+        <div class="buscar">
+            <form action="/buscar" method="get">
+                <input type="text" name="txtbuscar" placeholder="Buscar cliente...">
+                <input type="submit" value="Buscar">
+            </form>
+        </div>
+
+        <h2>{{ mensaje }}</h2>
+        <div class="insertarDatos">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#modalRegistro" id="modal" title="Insertar Datos">+</a>
+        </div>
+
+        <div class="modal fade" id="modalRegistro" tabindex="-1" aria-labelledby="registroLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="registroLabel">Nuevo Cliente</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/insertar" method="POST">
+                            <div class="mb-3">
+                                <label for="txtnombre" class="form-label">NOMBRE</label>
+                                <input type="text" class="form-control" name="txtnombre" id="txtnombre" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="txtNIT" class="form-label">NIT</label>
+                                <input type="text" class="form-control" name="txtNIT" id="txtNIT" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">REGISTRAR</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>NOMBRE</th>
+                    <th>NIT</th>
+                    <th>ACCIONES</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cliente in clientes %}
+                <tr>
+                    <td>{{ cliente[0] }}</td>
+                    <td>{{ cliente[1] }}</td>
+                    <td>{{ cliente[2] }}</td>
+                    <td>
+                        <a href="/actualizar/{{ cliente[0] }}" class="btn btn-warning">ACTUALIZAR</a>
+                        <a href="/eliminar/{{ cliente[0] }}" class="btn btn-danger" onclick="return confirm('¿Estás seguro que deseas eliminar?')">ELIMINAR</a>
+                        <a href="/comprar/{{ cliente[0] }}" class="btn btn-success">COMPRAR</a>
+                        <a href="/vercompras/{{ cliente[0] }}" class="btn btn-info">VER COMPRAS</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <script src="../static/js/bootstrap.bundle.min.js"></script>
+        <script src="../static/js/jquery-3.6.0.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('#modalRegistro').on('show.bs.modal', function () {
+                    $('#contenido-modal').load('/registro');
+                });
+            });
+        </script>
+</body>
+</html>
