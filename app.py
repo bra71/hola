@@ -4,7 +4,7 @@ from fpdf import FPDF
 import hashlib
 
 app = Flask(__name__)
-app.secret_key = "wazza"
+app.secret_key = "admin"
 
 def mostrarTodo():
     try:
@@ -201,7 +201,7 @@ def generar_pdf(id):
 def login():
     mensaje = ''
     if request.method == 'POST':
-        user = request.form['txtuser']
+        user = request.form['txtusuario']
         clave = request.form['txtclave']
         try:
             cursor = conexion.cursor()
